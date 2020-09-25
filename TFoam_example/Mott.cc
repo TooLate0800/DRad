@@ -46,7 +46,7 @@ void Mott(){
       TFoam *FoamX = new TFoam("FoamX"); // Create Simulator
       FoamX->SetkDim(1); // No. of dimensions, obligatory!
       FoamX->SetnCells(500); // No. of cells, can be omitted, default=2000
-      FoamX->SetRhoInt(Camel2); // Set 2-dim distribution, included below
+      FoamX->SetRhoInt(Camel2); // Set 1-dim distribution, included below
       FoamX->SetPseRan(PseRan); // Set random number generator
       FoamX->Initialize(); // Initialize simulator, takes a few seconds...
       // From now on FoamX is ready to generate events according to Camel2(x,y)
@@ -67,7 +67,7 @@ void Mott(){
 
 Double_t sqr(Double_t x){return x*x;};
 Double_t Camel2(Int_t nDim, Double_t *Xarg){
-     // 2-dimensional distribution for FOAM, normalized to one (within 1e-5)
+     // 1-dimensional distribution for FOAM, normalized to one (within 1e-5)
      Double_t theta=(theta_min + Xarg[0] * (theta_max - theta_min))*deg;
      Double_t Ei_1 = 1.1;
      Double_t cost2 = cos(theta / 2.0);
