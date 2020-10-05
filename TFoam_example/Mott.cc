@@ -37,6 +37,16 @@ const double mepsilon = 0.936 * 0.0022246 / 0.197 / 0.197;
 Double_t theta_max = 6.0;
 Double_t theta_min = 0.6;
 
+Double_t sqr(Double_t x){return x*x;};
+Double_t Camel2(Int_t nDim, Double_t *Xarg){
+     // 1-dimensional distribution for FOAM, normalized to one (within 1e-5)
+     Double_t theta=(theta_min + Xarg[0] * (theta_max - theta_min))*deg;
+     Double_t Ei_1 = 1.1;
+     Double_t cost2 = cos(theta / 2.0);
+     Double_t mott = TMath::Power((alpha * cost2 / (2. * Ei_1 * (1. - cost2 * cost2))),2);
+     return mott*sin(theta); 
+}// Camel2
+
 void Mott(){
       gSystem->Load("libFoam");
       TH1D *hst_x = new TH1D("hst_x" , "theta plot", 50 , theta_min, theta_max);//TH1D(name of histogram, title, number of bin, lower limit, upper limit)
@@ -64,13 +74,3 @@ void Mott(){
       c1->cd();
       hst_x->Draw("");
 }//Mott
-
-Double_t sqr(Double_t x){return x*x;};
-Double_t Camel2(Int_t nDim, Double_t *Xarg){
-     // 1-dimensional distribution for FOAM, normalized to one (within 1e-5)
-     Double_t theta=(theta_min + Xarg[0] * (theta_max - theta_min))*deg;
-     Double_t Ei_1 = 1.1;
-     Double_t cost2 = cos(theta / 2.0);
-     Double_t mott = TMath::Power((alpha * cost2 / (2. * Ei_1 * (1. - cost2 * cost2))),2);
-     return mott*sin(theta); 
-}// Camel2

@@ -3,6 +3,17 @@
 #include "TObject.h"
 #include "TFoam.h"
 #include "TRandom2.h"
+Double_t sqr(Double_t x){return x*x;};
+
+Double_t Camel2(Int_t nDim, Double_t *Xarg){
+     // 2-dimensional distribution for FOAM, normalized to one (within 1e-5)
+     Double_t x=Xarg[0];
+     Double_t y=Xarg[1];
+     Double_t GamSq= sqr(0.100e0);
+     Double_t Dist=exp(-(sqr(x-1./3) +sqr(y-1./3))/GamSq)/GamSq/TMath::Pi();
+     Dist +=exp(-(sqr(x-2./3) +sqr(y-2./3))/GamSq)/GamSq/TMath::Pi();
+     return Dist;
+}// Camel2
  
 void kanwa(){
       gSystem->Load("libFoam");
@@ -34,15 +45,3 @@ void kanwa(){
       hst_xy->Draw("lego2");
 }//kanwa
 
-Double_t sqr(Double_t x){return x*x;};
-
-Double_t Camel2(Int_t nDim, Double_t *Xarg){
-     // 2-dimensional distribution for FOAM, normalized to one (within 1e-5)
-     Double_t x=Xarg[0];
-     Double_t y=Xarg[1];
-     Double_t Dist = x + 2*y;
-     Double_t GamSq= sqr(0.100e0);
-     Double_t Dist=exp(-(sqr(x-1./3) +sqr(y-1./3))/GamSq)/GamSq/TMath::Pi();
-     Dist +=exp(-(sqr(x-2./3) +sqr(y-2./3))/GamSq)/GamSq/TMath::Pi();
-     return Dist;
-}// Camel2
